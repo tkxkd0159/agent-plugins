@@ -1,0 +1,23 @@
+{
+  "name": "jsl",
+  "owner": {
+    "name": "Jaeseung Lee"
+  },
+  "metadata": {
+    "version": "1.0.0",
+    "description": "A marketplace of plugins developed by Jaeseung Lee"
+  },
+  "plugins": [
+    {
+      "name": "dbud",
+      "source": "./plugins/dbud",
+      "description": "Useful utilities for programming and development",
+      "author": {
+        "name": "Jaeseung Lee"
+      },
+      "tags": ["utilities"],
+      "keywords": ["utils", "programming", "development"],
+      "category": "dev"
+    }
+  ]
+}

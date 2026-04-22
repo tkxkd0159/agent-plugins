@@ -1,0 +1,32 @@
+{
+  "name": "jsl",
+  "interface": {
+    "displayName": "jsl"
+  },
+  "plugins": [
+    {
+      "name": "stock-utils",
+      "source": {
+        "source": "local",
+        "path": "./plugins/stock-utils"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Finance"
+    },
+    {
+      "name": "dbud",
+      "source": {
+        "source": "local",
+        "path": "./plugins/dbud"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Work"
+    }
+  ]
+}

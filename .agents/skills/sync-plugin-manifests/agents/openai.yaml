@@ -1,0 +1,4 @@
+interface:
+  display_name: "Sync Plugin Manifests"
+  short_description: "Generate Codex and Gemini plugin manifests."
+  default_prompt: "Use $sync-plugin-manifests to generate Codex and Gemini manifests from a Claude plugin manifest."
