@@ -1,5 +1,4 @@
 ---
-name: code-review
 description: Adversarial, evidence-based review of HEAD against a base branch by parallel lens subagents
 allowed-tools: Bash(git merge-base:*), Bash(git diff:*), Bash(git log:*), Bash(git rev-parse:*), Bash(git branch:*), Bash(git show:*), Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr list:*), Task, Skill, Read, Grep, Glob
 disable-model-invocation: true
@@ -42,15 +41,19 @@ Every lens subagent follows this protocol. Do not merge phases; each depends on 
    - `Findings`: surviving findings, ordered by severity then confidence, **max 5**
    - `Residual risks`: unverified suspicions explicitly not promoted to findings
 
-## Lens focus (used in step 3)
+## Lenses
 
-- **Correctness** — logic errors, null handling, off-by-one, control flow, contract mismatches, stale callers, silent data corruption, partial failures, rollback gaps, migration/schema mismatch, cache staleness, dead or unreachable code.
-- **Architecture** — module boundaries, dependency direction, abstractions placed in the wrong layer, cross-cutting concerns wired ad-hoc, structural layering breaks, new cross-module coupling.
-- **Security** — auth/authz, input validation, injection (SQL/command/template), secret exposure, unsafe deserialization, SSRF, path traversal, privilege boundaries, multi-tenant leakage, unsafe defaults, PII handling.
-- **Maintainability** — hidden coupling, brittle abstractions, duplication, dead flags, unclear invariants, misleading names, obvious simplification not taken, accidental complexity.
-- **Testing** — coverage gaps for changed behavior, assertions that don't test what they claim, time/random/async-timing flakiness, shared fixtures, order coupling, brittle mocks.
-- **Performance** — DB query shape, N+1, hot-path allocations, nested loops over user data, avoidable round-trips, missing or wrong caching, sync work that should be async.
-- **Concurrency** — non-atomic read-modify-write, lock ordering, cancellation hazards, idempotency gaps, visibility/ordering bugs, retry interactions, double-submit/double-process.
+Each lens is a dedicated subagent that owns its own scope. Dispatch by name:
+
+| Lens            | Agent                      | Model  |
+| --------------- | -------------------------- | ------ |
+| correctness     | `correctness-reviewer`     | opus   |
+| security        | `security-reviewer`        | opus   |
+| concurrency     | `concurrency-reviewer`     | opus   |
+| architecture    | `architecture-reviewer`    | sonnet |
+| maintainability | `maintainability-reviewer` | sonnet |
+| testing         | `testing-reviewer`         | sonnet |
+| performance     | `performance-reviewer`     | sonnet |
 
 ## Procedure
 
@@ -80,9 +83,7 @@ Follow these steps precisely.
    Emit a dispatch summary: `activated` lenses + `skipped` lenses (each with a one-line reason).
 
 3. **Launch lens subagents in parallel.**
-   For every activated lens, launch one subagent with `$MERGE_BASE`, the lens's focus paragraph, the rubrics, and the three-phase protocol. Do not share a lens's focus with its neighbors — bounded scope is the point.
-
-   Models: use **opus** for `correctness`, `security`, `concurrency` (highest-stakes lenses). Use **sonnet** for `architecture`, `maintainability`, `testing`, `performance`.
+   For every activated lens, dispatch its agent from the Lenses table. Pass `$MERGE_BASE`, the rubrics, and the three-phase protocol at invocation. Model and tools are pre-configured on the agent.
 
 4. **Validate surviving findings in parallel.**
    For every `KEEP` or `DOWNGRADE` finding across all lenses, launch a validator subagent. Pass the finding's title, severity, `file:line-line` evidence, failure mode, and the PR diff. The validator opens the referenced range in the current code and returns either `CONFIRMED` or `REJECTED: <one-line reason>`. Use **opus** to validate `correctness` / `security` / `concurrency` findings; **sonnet** for the rest.
