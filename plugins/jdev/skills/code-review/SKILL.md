@@ -1,6 +1,7 @@
 ---
 name: code-review
 description: Adversarial, evidence-based review of HEAD against a base branch by parallel lens subagents
+allowed-tools: Bash(git merge-base:*), Bash(git diff:*), Bash(git log:*), Bash(git rev-parse:*), Bash(git branch:*), Bash(git show:*), Bash(gh pr view:*), Bash(gh pr diff:*), Bash(gh pr list:*), Task, Skill, Read, Grep, Glob
 disable-model-invocation: true
 argument-hint: "[--base BRANCH] [--comment]"
 ---

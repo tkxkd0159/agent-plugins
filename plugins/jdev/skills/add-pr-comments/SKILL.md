@@ -1,6 +1,7 @@
 ---
 name: add-pr-comments
 description: Use when posting code review findings as GitHub PR line-level comments after completing a review
+allowed-tools: Bash(gh pr view:*), Bash(gh repo view:*), Bash(gh api:*), Write, Read
 ---
 
 Post review findings from the current conversation as a GitHub PR review with line-level comments.
