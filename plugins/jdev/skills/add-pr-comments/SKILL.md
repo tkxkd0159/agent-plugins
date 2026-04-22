@@ -32,7 +32,7 @@ Process
      - `ready to approve` -> `"APPROVE"`
      - `ready after fixes` -> `"REQUEST_CHANGES"`
      - `not ready` -> `"REQUEST_CHANGES"`
-   - `body`: executive summary from the review, plus any general findings (not line-anchored) formatted as a bulleted list
+   - `body`: Provide a strict 1-sentence TL;DR of the PR's overall health. Do not summarize specific code issues, as these are covered in inline comments.
    - `comments`: array of line-anchored comment objects, each with:
      - `path`: relative file path (from repo root)
      - `line`: line number (for ranges, use the end line)
