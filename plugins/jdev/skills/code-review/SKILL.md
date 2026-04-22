@@ -7,6 +7,8 @@ argument-hint: "[--base BRANCH] [--comment]"
 
 Adversarial code review of HEAD against a base branch. Dispatches up to 7 focused lens subagents in parallel, validates findings against the actual code, and reports them — optionally posting to the PR.
 
+Raw slash-command arguments: $ARGUMENTS
+
 **Agent assumptions (applies to every subagent):**
 
 - All tools work. Do not test or probe tools.
@@ -60,10 +62,11 @@ Each lens is a dedicated subagent that owns its own scope. Dispatch by name:
 Follow these steps precisely.
 
 1. **Parse arguments and pin the comparison point.**
-   - `BASE_BRANCH`: use `$0` if non-empty, otherwise `origin/main`.
-   - `MERGE_BASE=$(git merge-base "$BASE_BRANCH" HEAD)`.
+   - `BASE_BRANCH`: use BRANCH value if raw arguments include `--base`, otherwise `origin/main`.
    - `COMMENT=1` if `--comment` was passed; otherwise unset.
-   - Every subsequent step diffs against `"$MERGE_BASE"..HEAD` so all reviewers see identical bytes.
+   - `HEAD_SHA=$(git rev-parse HEAD)` — pin the endpoint so later subagents see identical bytes even if `HEAD` moves mid-review.
+   - `MERGE_BASE=$(git merge-base "$BASE_BRANCH" "$HEAD_SHA")`.
+   - Every subsequent step diffs against `"$MERGE_BASE".."$HEAD_SHA"`.
 
 2. **Dispatch** (haiku subagent).
    Decide which lenses to run. `correctness` always runs; the others gate on triggers below. Use `git diff --name-only`, `git diff --shortstat`, `git diff --name-only --diff-filter=A`, and `grep -E` on the diff body. Read git outputs as text.
@@ -83,7 +86,7 @@ Follow these steps precisely.
    Emit a dispatch summary: `activated` lenses + `skipped` lenses (each with a one-line reason).
 
 3. **Launch lens subagents in parallel.**
-   For every activated lens, dispatch its agent from the Lenses table. Pass `$MERGE_BASE`, the rubrics, and the three-phase protocol at invocation. Model and tools are pre-configured on the agent.
+   For every activated lens, dispatch its agent from the Lenses table. Pass `$MERGE_BASE`, `$HEAD_SHA`, the rubrics, and the three-phase protocol at invocation. Model and tools are pre-configured on the agent.
 
 4. **Validate surviving findings in parallel.**
    For every `KEEP` or `DOWNGRADE` finding across all lenses, launch a validator subagent. Pass the finding's title, severity, `file:line-line` evidence, failure mode, and the PR diff. The validator opens the referenced range in the current code and returns either `CONFIRMED` or `REJECTED: <one-line reason>`. Use **opus** to validate `correctness` / `security` / `concurrency` findings; **sonnet** for the rest.
@@ -105,7 +108,7 @@ Follow these steps precisely.
    If `COMMENT` is unset, stop here and present the post-review menu (below).
 
 8. **Post to GitHub** (only if `COMMENT` is set).
-   Invoke the `add-pr-review` skill with the final finding list. Do not attempt to post via `gh pr comment` directly.
+   Invoke the `add-pr-comments` skill with the final finding list. Do not attempt to post via `gh pr comment` directly.
 
 ## False positives — do NOT flag
 
@@ -123,6 +126,6 @@ Follow these steps precisely.
 If `COMMENT` was not passed, ask the user to choose one:
 
 1. **Continue review** — go deeper on a specific finding, file, subsystem, or a skipped lens.
-2. **Post all findings to GitHub** — invoke `add-pr-review` with the full list.
-3. **Edit findings first** — present a compact list (`[#N] [SEV/CONF] Title — file:line`), allow removals / severity changes / rewording / fix edits, show the updated list after each edit round, then invoke `add-pr-review` with the final list.
+2. **Post all findings to GitHub** — invoke `add-pr-comments` with the full list.
+3. **Edit findings first** — present a compact list (`[#N] [SEV/CONF] Title — file:line`), allow removals / severity changes / rewording / fix edits, show the updated list after each edit round, then invoke `add-pr-comments` with the final list.
 4. **Exit** — end the session without posting anything.
