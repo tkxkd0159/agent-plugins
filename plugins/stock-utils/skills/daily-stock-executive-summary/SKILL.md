@@ -5,13 +5,20 @@ description: Generate an evidence-backed executive summary for the most recent c
 
 # Daily Stock Executive Summary
 
-Produce a daily U.S. equity-market briefing using live data from the current session tools.
+Produce a daily U.S. equity-market briefing using live web research from current market sources.
 
-## Required tools
+## Research method
 
-- Use `time` to anchor the report date and clarify the relevant U.S. market window with absolute dates.
-- Use `web` to gather market-moving news, sector context, institutional flow, commodities, and Treasury data.
-- Use `finance` when a price snapshot helps validate an index, ETF, or individual stock move.
+- Use `web` to gather market-moving news, sector context, institutional flow, commodities, Treasury data, and stock-specific context.
+- Use the current environment date when it is visible in the conversation or system context. If it is not visible, derive the report window from source publication timestamps and state the date assumption explicitly.
+
+## Preferred sources
+
+- Treat Reuters, Yahoo Finance, and CNBC as primary factual sources for market-moving news, market pulse, and major asset moves.
+- Treat Finviz and Reddit(r/stocks) as trend and sentiment checks, not as primary factual sources.
+  - Use Reddit only to identify themes, retail sentiment, and disputed narratives. Do not rely on Reddit alone for factual claims.
+  - Use Finviz to cross-check sector and industry performance, heat maps, and broad market leadership or weakness.
+- If a required datapoint such as the 3-month Treasury yield is missing from the preferred sources, use another primary market-data source or official source for that datapoint and name it in `Sources`.
 
 ## Scope
 
@@ -23,10 +30,12 @@ Produce a daily U.S. equity-market briefing using live data from the current ses
 ## Research requirements
 
 - Identify the important news from the last day that could change stock-investment decisions.
+- Prioritize Reuters Markets, Yahoo Finance, and CNBC for news and market pulse coverage.
 - Include institutional flow when available, such as ETF flows, major fund positioning, or large institutional allocation news that matters for the session.
 - Include raw material signals that matter for equities, such as oil, natural gas, copper, gold, lithium, steel inputs, or agricultural commodities when relevant.
 - Include the U.S. Treasury curve with 3-month, 2-year, and 10-year yields, plus whether each moved up, down, or stayed roughly flat versus the prior close.
 - Identify bullish sectors and bearish sectors with a short explanation for each call.
+- Use Finviz and r/stocks to cross-check trend and sentiment checks around sector leadership, crowded trades, and retail attention.
 - Identify notable stocks that appear undervalued or well priced but still likely to grow. If the evidence is weak, say there is no strong candidate instead of forcing one.
 
 ## Output format
@@ -62,11 +71,13 @@ Use these exact section headings in order:
 
 - List only news that could affect stock investment decisions over the past day.
 - Prefer macro policy, central-bank signals, labor and inflation data, major earnings surprises, regulation, geopolitics, and large capital-flow developments.
+- Prefer Reuters, Yahoo Finance, and CNBC before lower-signal commentary sources.
 
 ### Institutional Flow
 
 - Summarize relevant institutional flow or positioning signals.
 - If data is unavailable or stale, say so explicitly.
+- Do not infer institutional flow from Reddit sentiment alone.
 
 ### Raw Material Signals
 
@@ -81,11 +92,13 @@ Use these exact section headings in order:
 
 - Name the sectors that were strongest or have the best near-term setup.
 - Give one short rationale per sector.
+- Use Finviz sector or industry performance as a cross-check when available.
 
 ### Bearish Sectors
 
 - Name the sectors under the most pressure or with the weakest near-term setup.
 - Give one short rationale per sector.
+- Use Finviz sector or industry performance as a cross-check when available.
 
 ### Notable Stocks
 
@@ -114,6 +127,7 @@ Use these exact section headings in order:
 ### Sources
 
 - Include a short source list with titles or publishers and links.
+- Include the exact sources used, and identify whether each source was used for facts, market pulse, or trend and sentiment checks.
 
 ## Style rules
 
