@@ -1,0 +1,7 @@
+interface:
+  display_name: "Daily Stock Executive Summary"
+  short_description: "Summarize the latest U.S. trading session with macro, sector, and stock-level insights."
+  default_prompt: "Generate today's stock market executive summary."
+  brand_color: "#0F766E"
+policy:
+  allow_implicit_invocation: false

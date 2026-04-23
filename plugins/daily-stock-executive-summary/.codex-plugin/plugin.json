@@ -1,0 +1,35 @@
+{
+  "name": "daily-stock-executive-summary",
+  "version": "0.1.0",
+  "description": "Generate a daily U.S. stock market executive summary with macro, sector, and stock-level insights.",
+  "author": {
+    "name": "Jaeseung Lee",
+    "url": "https://github.com/tkxkd0159"
+  },
+  "homepage": "https://github.com/tkxkd0159/agent-plugins",
+  "repository": "https://github.com/tkxkd0159/agent-plugins",
+  "keywords": [
+    "stocks",
+    "market-summary",
+    "finance"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Daily Stock Executive Summary",
+    "shortDescription": "Summarize the latest U.S. trading session with actionable market context.",
+    "longDescription": "Build a daily stock-market briefing that combines macro signals, sector rotation, institutional flow, and notable stock ideas into tactical but non-personalized guidance.",
+    "developerName": "Jaeseung Lee",
+    "category": "Finance",
+    "capabilities": [
+      "Read",
+      "Analysis"
+    ],
+    "websiteURL": "https://github.com/tkxkd0159/agent-plugins",
+    "defaultPrompt": [
+      "Generate today's stock market executive summary.",
+      "Summarize sector rotation and Treasury moves from the latest U.S. session.",
+      "Find the strongest evidence-backed stock ideas from the last trading day."
+    ],
+    "brandColor": "#0F766E"
+  }
+}
