@@ -5,10 +5,10 @@
   },
   "plugins": [
     {
-      "name": "daily-stock-executive-summary",
+      "name": "stock-utils",
       "source": {
         "source": "local",
-        "path": "./plugins/daily-stock-executive-summary"
+        "path": "./plugins/stock-utils"
       },
       "policy": {
         "installation": "AVAILABLE",

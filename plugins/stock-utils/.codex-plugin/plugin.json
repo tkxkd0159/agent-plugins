@@ -1,0 +1,28 @@
+{
+  "name": "stock-utils",
+  "version": "0.1.0",
+  "description": "Reusable Codex skills for stock-market research, summaries, and analysis workflows.",
+  "author": {
+    "name": "Jaeseung Lee",
+    "url": "https://github.com/tkxkd0159"
+  },
+  "homepage": "https://github.com/tkxkd0159/agent-plugins",
+  "repository": "https://github.com/tkxkd0159/agent-plugins",
+  "keywords": ["stocks", "research", "finance"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Stock Utils",
+    "shortDescription": "Reusable stock-market research and analysis skills.",
+    "longDescription": "Bundle focused Codex skills for stock research, market summaries, sector analysis, and related investing workflows.",
+    "developerName": "Jaeseung Lee",
+    "category": "Finance",
+    "capabilities": ["Read", "Analysis"],
+    "websiteURL": "https://github.com/tkxkd0159/agent-plugins",
+    "defaultPrompt": [
+      "List the stock research skills available in this plugin.",
+      "Help me choose the right stock-analysis skill for this task.",
+      "Use Stock Utils to investigate a stock, sector, or market setup."
+    ],
+    "brandColor": "#0F766E"
+  }
+}
