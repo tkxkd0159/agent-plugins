@@ -1,7 +1,7 @@
 {
-  "name": "utility-hub",
+  "name": "jsl",
   "interface": {
-    "displayName": "Utility Hub"
+    "displayName": "jsl"
   },
   "plugins": [
     {

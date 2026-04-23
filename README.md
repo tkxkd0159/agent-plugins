@@ -1,5 +1,7 @@
-# claude-plugins
+# agent-plugins
 
 ```sh
-/plugin marketplace add https://github.com/tkxkd0159/claude-plugins.git
+
+claude plugin marketplace add https://github.com/tkxkd0159/agent-plugins.git
+codex plugin marketplace add https://github.com/tkxkd0159/agent-plugins.git
 ```
