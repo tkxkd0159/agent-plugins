@@ -1,12 +1,10 @@
 [← Back to index & glossary](../PRODUCT_CYCLE.md)
 
-# 12. Autonomy & Approval Policy `AI-native`
+# 12. Autonomy & Approval Policy
 
 > What may an agent do on its own, what requires a human, and what is forbidden?
 
-**Badge legend:** `Core` · `Elevated` · `Conditional` · `Executable` · `Merged` · `AI-native`. See [AI-era principles](ai-era-principles.md).
-
-This is the single most important governance artifact in an AI-driven workflow, and it is absent from the traditional document catalog. **Autonomy is a policy decision, not a model decision** — a deterministic policy layer decides what runs, never the model itself.
+This is the single most important governance artifact in an AI-driven workflow. **Autonomy is a policy decision, not a model decision** — a deterministic policy layer decides what runs, never the model itself.
 
 ---
 
@@ -48,6 +46,6 @@ An action may auto-execute **only if all hold**:
 - **Audit trail:** every prompt, tool call, action, and approval is logged ([10](10-operations-and-observability.md)).
 - **Typed, allowlisted tools:** agents call bounded, schema-validated tools — never raw shell, arbitrary SQL, or unrestricted control-plane access.
 
-### In AI-driven workflows
+### Why it matters
 
-This policy is what makes autonomy *safe* rather than reckless. It separates the agent's reasoning (propose) from deterministic authorization (decide) and execution (act). Start narrow — most actions at A0/A1, everything risky at A2 — and promote actions to higher autonomy only after they prove reliable in shadow mode. This repo's `AIOps_DBaaS.md` (§12, §15, §19) is a worked, production-grade instance of this model for database operations.
+This policy is what makes autonomy *safe* rather than reckless. It separates the agent's reasoning (propose) from deterministic authorization (decide) and execution (act). Start narrow — most actions at A0/A1, everything risky at A2 — and promote actions to higher autonomy only after they prove reliable in shadow mode. For a worked, production-grade instance of this model, see [`AIOps_DBaaS.md`](../../AIOps_DBaaS.md) (optional).
